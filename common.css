@@ -17,16 +17,20 @@
 
 :root {
 	--cbg: #fafdff;
+	--cbg-strong: var(--cbg);
 	--cfg: #0e131a;
-	--cfg-muted: var(--cfg);
+	--cfg-muted-1: rgba(14, 19, 26, 0.6);
+	--cfg-muted-2: var(--cfg);
 }
-/*@media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: dark) {
 	:root {
 		--cbg: #0e131a;
+		--cbg-strong: #05070a;
 		--cfg: #fafdff;
-		--cfg-muted: #747986;
+		--cfg-muted-1: rgba(250,253,255, 0.6);
+		--cfg-muted-2: #747986;
 	}
-}*/
+}
 html {
 	background: var(--cfg);  /* Overscroll. */
 }
@@ -42,7 +46,7 @@ h1, h2, footer {
 	font-family: 'Arial Black', sans-serif;
 }
 h1 {
-	color: var(--cfg-muted);
+	color: var(--cfg-muted-2);
 	display: flex;
 	margin: 0;
 	line-height: 1em;
@@ -54,6 +58,7 @@ h1 {
 	justify-content: stretch;
 	align-items: stretch;
 	visibility: hidden;
+	overflow: hidden;
 }
 h1.show {
 	visibility: visible;
@@ -77,9 +82,6 @@ h1.deleted .cursor {
 }
 h1.deleted .outer + .outer .cursor {
 	visibility: hidden;
-}
-h1 .cursor {
-	float: right;
 }
 .no-js-motion h1 {
 	margin-top: 0 !important;
@@ -108,9 +110,16 @@ h3 {
 }
 a {
 	color: inherit;
+	background-image: linear-gradient(var(--cfg), var(--cfg));
+	background-position: -999900%;
+	background-repeat: no-repeat;
+	background-size: 99.99% 100%;
+	transition: none;
 }
 a:hover, a:focus {
-	text-decoration: line-through;
+	color: var(--cfg-muted-1);
+	background-position: 1000000%;
+	transition: background-position 1.6s cubic-bezier(0.3, 1, 0.7, 0), color 0s 0.8s;
 }
 p {
 	line-height: 1.5;
@@ -151,7 +160,7 @@ hr {
 	border: 0;
 	height: 1px;
 	margin: 60px 0;
-	background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+	background-image: linear-gradient(to right, transparent, var(--cfg-muted-1), transparent);
 }
 .wavy { text-decoration: underline; text-decoration-style: wavy; }
 .intro { grid-area: 2 / 1 / 2 / 1; min-width: 0; }
@@ -171,11 +180,13 @@ nav {
 .content-1 > :first-child {
 	margin-top: 0;
 }
+.next-date, .disclaimer, footer {
+	color: var(--cbg-strong);
+	background: var(--cfg-muted-2);
+	padding: 24px;
+}
 .next-date, .disclaimer {
 	margin: 0 0 10px;
-	padding: 30px;
-	background: var(--cfg-muted);
-	color: var(--cbg);
 }
 .next-date::selection, .next-date ::selection, .disclaimer::selection, .disclaimer ::selection {
 	color: var(--cfg);
@@ -199,7 +210,7 @@ nav::before {
 	bottom: 0;
 	left: 0;
 	width: 1px;
-	background-image: linear-gradient(to top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+	background-image: linear-gradient(to top, transparent, var(--cfg-muted-1), transparent);
 }
 nav ul ul {
 	margin-left: 2em;
@@ -212,26 +223,6 @@ nav ul ul li {
 }
 nav a {
 	text-decoration: none !important;
-	vertical-align: bottom;
-	display: inline-block;
-	overflow: hidden;
-	position: relative;
-}
-nav a::before {
-	display: block;
-	content: '';
-	width: 200%;
-	height: 100%;
-	position: absolute;
-	top: 0;
-	left: 0;
-	transform: translate3d(-100%, 0, 0);
-	pointer-events: none;
-}
-nav a:hover::before, nav a:focus::before {
-	background: var(--cfg);
-	transform: translate3d(50%, 0, 0);
-	transition: ease-out transform 1s;
 }
 .home-link {
 	display: none;
@@ -278,20 +269,23 @@ h2:hover .header-link, h3:hover .header-link, h4:hover .hover-link {
 }
 footer {
 	align-items: center;
-	background: var(--cfg-muted);
-	color: var(--cbg);
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-between;
 	min-height: 40px;
-	padding: 24px;
 	margin-top: auto;
 }
 footer > * {
-	margin: 16px 0;
+	margin: 16px;
 }
-footer a::before {
-	display: none;
+footer a:hover, footer a:focus {
+	color: inherit;
+	background: none;
+	text-decoration: line-through;
+	transition: none;
+}
+.copyright:hover .copy-year, .copyright:focus .copy-year {
+	text-decoration: line-through;
 }
 .countdown {
 	order: -1;
@@ -299,7 +293,7 @@ footer a::before {
 	width: 100%;
 }
 .copyright {
-	text-decoration: none;
+	text-decoration: none !important;
 }
 .copyleft {
 	display: inline-block;
@@ -314,14 +308,16 @@ footer a::before {
 }
 @media screen and (min-width: 540px) {
 	body {
-		border: 24px solid var(--cfg-muted);
+		border: 24px solid var(--cfg-muted-2);
 	}
 	footer {
 		flex-direction: row;
 		padding: 24px 0 0;
+		margin-left: -16px;
+		margin-right: -16px;
 	}
 	footer > * {
-		margin: 0;
+		margin: 0 16px;
 	}
 	.countdown {
 		order: 0;
@@ -383,11 +379,8 @@ footer a::before {
 		content: '';
 		animation: none;
 	}
-	a:hover {
+	a:hover, a:focus {
 		text-decoration: line-through;
-	}
-	a::before {
-		display: none !important;
 	}
 }
 @keyframes blink {
