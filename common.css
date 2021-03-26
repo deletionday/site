@@ -13,7 +13,7 @@
  * */
 
 /* Reset */
-*,:after,:before{box-sizing:border-box}blockquote,body,dd,dl,figure,h1,h2,h3,h4,li,p{margin:0}ol[class],ul[class],nav ul{margin:0;padding:0;list-style:none}button,code,input,pre,select,textarea{font:inherit;letter-spacing:inherit;word-spacing:inherit}button{cursor:pointer}code{font-family:monospace}body{min-height:100vh;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility;display:flex;flex-direction:column}a[target='_blank']{cursor:alias}a[target='_blank']::after{content:'\202F\279A'}
+*,:after,:before{box-sizing:border-box}blockquote,body,dd,dl,figure,h1,h2,h3,h4,li,p{margin:0}ol[class],ul[class],nav ul{margin:0;padding:0;list-style:none}button,code,input,pre,select,textarea{color:inherit;font:inherit;letter-spacing:inherit;word-spacing:inherit}button{cursor:pointer}code{font-family:monospace}body{min-height:100vh;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility;display:flex;flex-direction:column}a[target='_blank']{cursor:alias}a[target='_blank']::after{content:'\202F\279A'}
 
 :root {
 	--cbg: #fafdff;
@@ -39,7 +39,7 @@ body {
 	color: var(--cfg);
 	background: var(--cbg);
 }
-.intro, .big, h2, h3 {
+.intro, .big, h2 {
 	font-size: 26px;
 }
 h1, h2, footer {
@@ -97,8 +97,9 @@ h2::after, h3::after, h4::after, .cursor::after {
 	animation: blink 1s steps(5, start) infinite;
 }
 h3 {
+	font-size: 24px;
 	font-weight: normal;
-	margin: 1.5em 0 0.5em;
+	margin: 1.5em 0 1em;
 }
 .next-date::after {
 	content: '';
@@ -247,10 +248,7 @@ nav a {
 summary {
 	cursor: pointer;
 	list-style-position: outside;
-	margin: 1.5em 0 0.5em 1em;
-}
-summary h3 {
-	display: inline;
+	margin-left: 1em;
 }
 summary .header-link {
 	padding-right: 28px;
