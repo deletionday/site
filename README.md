@@ -1,4 +1,4 @@
-# Deletion Day
+# Deletion Day [![Awesome Humane Tech](https://raw.githubusercontent.com/humanetech-community/awesome-humane-tech/main/humane-tech-badge.svg?sanitize=true)](https://github.com/humanetech-community/awesome-humane-tech)
 
 [Deletion Day](https://deletionday.com) challenges the prevailing notion that “more is more”. In a culture that strives for permanence, we celebrate ephemerality, growth, and change. On April 4<sup>th</sup>, a chorus of Delete keys will ring out across the world. We hope you’ll join us.
 
