@@ -97,6 +97,7 @@ h2::after, h3::after, h4::after, .cursor::after {
 	animation: blink 1s steps(5, start) infinite;
 }
 h3 {
+	display: inline-block;
 	font-size: 24px;
 	font-weight: normal;
 	margin: 1.5em 0 1em;
@@ -204,7 +205,12 @@ nav {
 	display: flex;
 	justify-content: space-between;
 }
-nav::before {
+blockquote {
+	font-style: italic;
+	padding-left: 2em;
+	position: relative;
+}
+nav::before, blockquote::before {
 	content: '';
 	position: absolute;
 	top: 0;
