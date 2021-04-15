@@ -96,11 +96,14 @@ h2::after, h3::after, h4::after, .cursor::after {
 	content: '_';
 	animation: blink 1s steps(5, start) infinite;
 }
-h3 {
-	display: inline-block;
+h3, summary {
 	font-size: 24px;
 	font-weight: normal;
 	margin: 1.5em 0 1em;
+}
+summary h3 {
+	display: inline;
+	line-height: 1.5;
 }
 .next-date::after {
 	content: '';
