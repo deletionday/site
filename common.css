@@ -383,6 +383,9 @@ footer a:hover, footer a:focus {
 	}
 }
 @media (prefers-color-scheme: dark) {
+	html {
+		background: var(--c-highlight);
+	}
 	body {
 		border-color: var(--c-highlight);
 	}
