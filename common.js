@@ -23,7 +23,7 @@ const $$ = (...args) => {
 	const result = $(...args)(x => x);
 	return result.length > 1 ? result : result[0];
 };
-const elWrap = (el, inner, className = '') => `<${el}${className ? ` class=${className}` : ''}>${inner}</${el}>`;
+const elWrap = (el, inner, className) => `<${el}${className ? ` class="${className}"` : ''}>${inner}</${el}>`;
 // debouncer, with `add(fn)` and `trigger()` methods.
 const resizeDebouncer = (() => {
 	const fns = [];
@@ -51,62 +51,29 @@ $('h2, h3, h4', $$('main'))(el => {
 });
 
 // handle dynamic dates.
-const today = new Date();
-const year = today.getFullYear();
-const diff = new Date(year, 3, 4) - today;
-const updateNextText = () => $('.next-date')(el => {
-	if (diff > 0) {
-		el.innerHTML = `The next Deletion Day <br class="hard-break">is April 4<sup>th</sup>, ${year}`;
-	} else if (diff > -86400000)  {
-		el.innerHTML = 'Deletion Day is <span class="wavy">today</span>!';
-	} else el.innerHTML = `The next Deletion Day <br class="hard-break">is April 4<sup>th</sup>, ${year + 1}`;
-});
-updateNextText();
-$('.copy-year')(el => el.textContent = year);
-const countdown = Math.ceil((diff > -86400000 ? diff : new Date(year + 1, 3, 4) - today) / 86400000);
-$$('.countdown').innerHTML = `${(countdown)}<span class="cursor"></span> days until April 4<sup>th</sup>`;
-
-// full-justify text.
-const fullJustify = () => $('.full-justify')(el => {
-	updateNextText();
-	el.innerHTML = el.innerHTML
-		.replace(/<\/?span( class="line")?>/g, '')
-		.replace(/\n/g, '')
-		.split(/ (?!class=)/)
-		.map(x => x.startsWith('<span') ? x : elWrap('span', x))
-		.join(' ');
-	const words = $$('span', el);
-	const lines = [];
-	let prevTop, line;
-	for (const word of words) {
-		const {offsetTop} = word;
-		if (offsetTop != prevTop) {
-			prevTop = offsetTop;
-			line = [];
-			lines.push(line);
+const updateDates = () => {
+	const today = new Date();
+	const year = today.getFullYear();
+	const diff = new Date(year, 3, 4) - today;
+	const isThisYear = diff > -86400000;
+	const isLaterThisYear = diff > 0;
+	const isToday = isThisYear && !isLaterThisYear;
+	$('.next-date')(el => {
+		if (isToday) {
+			el.innerHTML = `${elWrap('span', 'Deletion Day', 'line')} ${elWrap('span', 'is <span class="wavy">today</span>!', 'line stretch')}`;
+		} else  {
+			el.innerHTML = `${elWrap('span', 'The next', 'line stretch')} ${elWrap('span', 'Deletion Day', 'line')}<br class="hard-break"> ${elWrap('span', 'is April 4<sup>th</sup>', 'line')} ${elWrap('span', `${isLaterThisYear ? year : year + 1}`.split('').map(n => elWrap('span', n)).join(''), 'word')}`;
 		}
-		line.push(word);
-	}
-	el.textContent = '';
-	for (let i = 0; i < lines.length; ++i) {
-		const line = lines[i];
-		const lineEl = document.createElement('span');
-		lineEl.className = 'line';
-		if (line.length === 1) {
-			lineEl.innerHTML = line[0].textContent
-				.split('')
-				.map(x => elWrap('span', x))
-				.join('');
-		} else {
-			lineEl.innerHTML = line.map(span => span.outerHTML).join(' ');
-		}
-		el.appendChild(lineEl);
-		if (i !== lines.length - 1) el.appendChild(document.createTextNode(' '));
-	}
-});
-resizeDebouncer.add(fullJustify);
-fullJustify();
+	});
+	$('.copy-year')(el => el.textContent = year);
+	const countdown = Math.ceil((isThisYear ? diff : new Date(year + 1, 3, 4) - today) / 86400000);
+	$$('.countdown').innerHTML = `${(countdown)}<span class="cursor"></span> days until April 4<sup>th</sup>`;
+	// re-run occasionally.
+	window.setTimeout(updateDates, 1200000);
+};
+updateDates();
 
+// handle header scaling and animation.
 const header = $$('h1');
 const htmlSnippet = `<span class="outer"><span class="inner"><span class="text">${header.textContent}</span><span class="cursor"></span></span></span>`;
 header.innerHTML = `${htmlSnippet}${htmlSnippet}`;

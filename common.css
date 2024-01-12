@@ -12,6 +12,14 @@
  * <https://www.gnu.org/licenses/>.
  * */
 
+@font-face {
+	font-display: fallback;
+	font-family: 'Integral';
+	font-style: normal;
+	font-weight: 900;
+	src: url('/integral-cf-heavy.woff2') format('woff2');
+}
+
 /* Reset */
 *,:after,:before{box-sizing:border-box}blockquote,body,dd,dl,figure,h1,h2,h3,h4,li,p{margin:0}ol[class],ul[class],nav ul{margin:0;padding:0;list-style:none}button,code,input,pre,select,textarea{color:inherit;font:inherit;letter-spacing:inherit;word-spacing:inherit}button{cursor:pointer}code{font-family:monospace}body{min-height:100vh;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility;display:flex;flex-direction:column}a[target='_blank']{cursor:alias}a[target='_blank']::after{content:'\202F\279A'}
 
@@ -42,7 +50,7 @@ body {
 	font-size: 26px;
 }
 h1, h2, footer {
-	font-family: 'Arial Black', sans-serif;
+	font-family: 'Integral', 'Arial Black', sans-serif;
 }
 h1 {
 	color: var(--c-fg);
@@ -57,7 +65,6 @@ h1 {
 	justify-content: stretch;
 	align-items: stretch;
 	visibility: hidden;
-	overflow: hidden;
 }
 h1.show {
 	visibility: visible;
@@ -153,8 +160,7 @@ sup a {
 main {
 	display: grid;
 	grid-template-columns: 1fr;
-	grid-row-gap: 40px;
-	grid-column-gap: 5%;
+	gap: 40px;
 	margin-top: 20px;
 	padding: 40px 7%;
 	max-width: 100%;
@@ -166,7 +172,11 @@ hr {
 	margin: 60px 0;
 	background-image: linear-gradient(to right, transparent, var(--c-fg-muted), transparent);
 }
-.wavy { text-decoration: underline; text-decoration-style: wavy; }
+.wavy {
+	text-decoration: underline;
+	text-decoration-style: wavy;
+	text-decoration-thickness: 1px;
+}
 .intro { grid-area: 2 / 1 / 2 / 1; min-width: 0; }
 .intro p:last-child {
 	margin-bottom: 0;
@@ -185,7 +195,7 @@ nav {
 	margin-top: 0;
 }
 .next-date, .disclaimer, footer {
-	padding: 24px;
+	padding: 18px 24px 24px;
 }
 .next-date, .disclaimer {
 	color: var(--c-fg);
@@ -199,13 +209,18 @@ nav {
 .disclaimer {
 	margin: 1.5em 0;
 }
-.full-justify {
+.full-justify .line {
+	display: block;
 	text-align: justify;
 	text-align-last: justify;
 }
-.full-justify .line {
+.full-justify .word {
 	display: flex;
 	justify-content: space-between;
+}
+.full-justify .stretch {
+	width: calc(100% + 8px);
+	letter-spacing: 8px;
 }
 blockquote {
 	font-style: italic;
@@ -286,14 +301,19 @@ footer {
 footer > * {
 	margin: 16px;
 }
+footer a {
+	text-decoration-thickness: 0.2em;
+}
 footer a:hover, footer a:focus {
 	color: inherit;
 	background: none;
-	text-decoration: line-through;
+	text-decoration-skip-ink: none;
+	text-underline-offset: -0.45em;
 	transition: none;
 }
 .copyright:hover .copy-year, .copyright:focus .copy-year {
-	text-decoration: line-through;
+	text-decoration-skip-ink: none;
+	text-underline-offset: -0.45em;
 }
 .countdown {
 	order: -1;
@@ -304,6 +324,8 @@ footer a:hover, footer a:focus {
 	text-decoration: none !important;
 }
 .copyleft {
+	position: relative;
+	top: 3px;
 	display: inline-block;
 	font-size: 2em;
 	vertical-align: middle;
@@ -311,6 +333,7 @@ footer a:hover, footer a:focus {
 }
 .copy-year {
 	text-decoration: underline;
+	text-decoration-thickness: 0.2em;
 	vertical-align: middle;
 	display: inline-block;
 }
@@ -332,12 +355,12 @@ footer a:hover, footer a:focus {
 		width: auto;
 	}
 }
-@media screen and (max-width: 449px) {
+@media screen and (max-width: 482px) {
 	.hard-break {
 		display: none;
 	}
 }
-@media screen and (min-width: 720px) {
+@media screen and (min-width: 860px) {
 	.hard-break {
 		display: none;
 	}
@@ -347,8 +370,11 @@ footer a:hover, footer a:focus {
 		text-align: center;
 		text-align-last: center;
 	}
-	.full-justify .line {
+	.full-justify .line, .full-justify .word {
 		display: inline;
+	}
+	.full-justify .stretch {
+		letter-spacing: unset;
 	}
 }
 @media screen and (min-width: 1080px) {
@@ -364,7 +390,7 @@ footer a:hover, footer a:focus {
 	.content-1 { grid-area: 2 / 2 / 5 / 3; margin-top: -7px; }
 	.content-2 { grid-area: 5 / 2 / 6 / 3; margin-top: -7px; }
 	main {
-		grid-template-columns: 252px 3fr;
+		grid-template-columns: 280px 1fr;
 		grid-row-gap: 40px;
 	}
 	nav::before {
@@ -377,9 +403,9 @@ footer a:hover, footer a:focus {
 		margin-left: 1em;
 	}
 }
-@media screen and (min-width: 1440px) {
+@media screen and (min-width: 1600px) {
 	main {
-		grid-template-columns: 252px 3fr 252px;
+		grid-template-columns: 280px 1fr 280px;
 	}
 }
 @media (prefers-color-scheme: dark) {
